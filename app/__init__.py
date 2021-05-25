@@ -27,6 +27,6 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
-        return 'Hello, mtg-dashboard here!'
+        return 'Hello, mtg-dashboard here again!'
 
     return app
