@@ -1,5 +1,8 @@
-activate_this = '/home/www/mtg-dashboard/.venv/bin/activate_this.py'
-with open(activate_this) as file_:
-    exec(file_.read(), dict(__file__=activate_this))
+from dotenv import load_dotenv
+
+# load .env file explicitely so that it works in production
+# in dev environment the flask dev server loads it automatically
+load_dotenv()
+
 from app import app as application
 
