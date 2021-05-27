@@ -2,7 +2,11 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 
+# load .env file explicitely so that it works in production
+# in dev environment the flask dev server loads it automatically
+load_dotenv()
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
