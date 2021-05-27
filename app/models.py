@@ -1,21 +1,30 @@
+from datetime import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
 db = SQLAlchemy(app)
 
-collections = db.Table('collections',
-    db.Column('collection_id', db.Integer, db.ForeignKey('collection.id'), primary_key=True),
-    db.Column('card_id', db.Integer, db.ForeignKey('card.id'), primary_key=True)
+collections = db.Table(
+    "collections",
+    db.Column(
+        "collection_id", db.Integer, db.ForeignKey("collection.id"), primary_key=True
+    ),
+    db.Column("card_id", db.Integer, db.ForeignKey("card.id"), primary_key=True),
 )
 
-class Collection():
+
+class Collection:
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    cards = db.relationship('Card', secondary=collections, lazy='subquery',
-        backref=db.backref('collections', lazy=True))
+    cards = db.relationship(
+        "Card",
+        secondary=collections,
+        lazy="subquery",
+        backref=db.backref("collections", lazy=True),
+    )
 
     def __repr__(self):
         return f"Collection {self.name} ({len(self.cards)} cards)"
@@ -29,17 +38,13 @@ class Card(db.model):
     def __repr__(self):
         return f"{self.name} ({self.setname})"
 
+
 class Price(db.model):
     id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Float)
-    card_id = db.Column(db.Integer, db.ForeignKey('card.id'),
-            nullable=False)
-    card = db.relationship('Card',
-        backref=db.backref('prices', lazy=True)
-    date = db.Column(db.DateTime, nullable=False,
-        default=datetime.utcnow)
+    card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
+    card = db.relationship("Card", backref=db.backref("prices", lazy=True))
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     def __repr__(self):
         return f"{self.date}: {self.card.name} {self.price} "
-
-
