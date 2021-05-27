@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from app import app
+from mtg_dashboard.app import app
 
 app.config.from_pyfile("config.py")
 db = SQLAlchemy(app)

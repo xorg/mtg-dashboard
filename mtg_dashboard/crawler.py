@@ -5,5 +5,5 @@ def fetch_prices():
     pass
 
 
-def import_cards(filename):
+def fetch_cards(filename):
     print(filename)

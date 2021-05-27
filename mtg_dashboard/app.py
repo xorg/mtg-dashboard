@@ -1,6 +1,6 @@
 import os
 import click
-from .crawler import import_cards
+from .crawler import fetch_cards
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,7 +14,10 @@ db = SQLAlchemy(app)
 @app.cli.command("fetch")
 @click.argument("filename")
 def fetch(filename):
-    import_cards(filename)
+    fetch_cards(filename)
+
+
+app.cli.add_command(fetch)
 
 
 # a simple page that says hello
