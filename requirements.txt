@@ -1,7 +1,6 @@
 flake8==3.9.2
 Flask==2.0.1
 Flask-SQLAlchemy==2.5.1
-Flask-Migrate==2.5.2
 postgres==3.0.0
 python-dotenv==0.17.1
 regex==2021.4.4
