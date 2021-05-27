@@ -8,6 +8,6 @@ setuptools.setup(
     packages = ['mtg_dashboard'],
     include_package_data=True,
     zip_safe=False,
-    install_requires = ['app']
+    install_requires = ['Flask']
 )
 
