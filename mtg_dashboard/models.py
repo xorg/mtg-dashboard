@@ -30,13 +30,13 @@ class Collection(db.Model):
 
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), nullable=False, unique=True)
+    name = db.Column(db.String(80), nullable=False)
     setname = db.Column(db.String(5), nullable=True)
     count = db.Column(db.Integer, nullable=False, default=1)
 
     def __repr__(self):
         if self.setname:
-            return f"{self.name} ({self.setname})"
+            return f"{self.count}x {self.name} ({self.setname})"
         return f"{self.name}"
 
 
@@ -48,4 +48,4 @@ class Price(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     def __repr__(self):
-        return f"{self.date}: {self.card.name} {self.price} "
+        return f"Price: {self.date}: {self.card.name} {self.price} "
