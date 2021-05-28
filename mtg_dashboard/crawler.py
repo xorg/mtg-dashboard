@@ -1,9 +1,10 @@
 import scrython
 import click
 from flask import Blueprint
-from .models import Card, Price, db
+from mtg_dashboard.models import Card, Price, db
 
 crawler_bp = Blueprint('crawler', __name__)
+
 
 def read_file(filename):
     with open(filename, "r") as f:
@@ -44,6 +45,8 @@ def save_to_db(objects):
     # create db if not exists
     db.create_all()
     for i in objects:
+        crawler_bp.logger.info(f"Importing {i}")
+
         db.session.add(i)
     db.session.commit()
 
