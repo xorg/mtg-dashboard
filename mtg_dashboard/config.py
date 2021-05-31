@@ -1,4 +1,5 @@
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -6,12 +7,12 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    FLASK_APP = os.environ['FLASK_APP']
+    FLASK_APP = os.environ["FLASK_APP"]
     try:
-        SECRET_KEY = os.environ['SECRET']
+        SECRET_KEY = os.environ["SECRET"]
     except KeyError:
         SECRET_KEY = "dev"
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -24,5 +25,6 @@ class Development(Config):
     DEBUG = True
 
 
-class TestingConfig(Config):
+class Test(Config):
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/mtg-dashboard.sqlite"
     TESTING = True
