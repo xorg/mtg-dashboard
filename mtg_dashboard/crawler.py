@@ -1,3 +1,5 @@
+import csv
+import time
 import scrython
 import click
 from flask import Blueprint, current_app
@@ -30,6 +32,29 @@ def parse_decklist_line(line, collection=None):
     return final_card
 
 
+def parse_csv(filename, collection=None):
+    cards = []
+    with open(filename, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            name = row['Name']
+            setname = row['Set']
+            existing_card = Card.query.filter_by(name=name, setname=setname).first()
+            if existing_card:
+                existing_card.count += 1
+                cards.append(existing_card)
+                continue
+            final_card = Card(name=name, count=1, setname=setname)
+            final_card.collections.append(collection)
+            cards.append(final_card)
+    return cards
+
+
+def parse_txt(filename, collection=None):
+    f = read_file(filename)
+    return parse_mtg_decklist(f, collection)
+
+
 def parse_mtg_decklist(data, col=None):
     return [parse_decklist_line(i, col) for i in data if i]
 
@@ -40,11 +65,28 @@ def fetch_price(card):
     else:
         fetched_card = scrython.cards.Named(exact=card.name)
     price = Price(card=card, card_id=card.id, price=fetched_card.prices("eur"))
+    time.sleep(0.05)
     return price
 
 
 def fetch_prices(card_list):
     return [fetch_price(card) for card in card_list if card.name]
+
+
+def parse_collection(filename, collection):
+    # try to find collection
+    col = Collection(name=filename.split('.')[0].capitalize())
+    if collection:
+        col = Collection(name=collection)
+        try:
+            col_query = collection.query.filter_by(name=collection).first()
+        except AttributeError:
+            col_query = None
+        if col_query:
+            col = col_query
+            return col
+    save_to_db([col])
+    return col
 
 
 def save_to_db(objects):
@@ -62,30 +104,29 @@ def save_to_db(objects):
 @click.option('--collection', default=None, help='Collection name to save cards to')
 def import_cards(filename, collection):
     """Import cards to database from a text file"""
-    f = read_file(filename)
 
-    # try to find collection
-    col = Collection(name=filename.split('.')[0].capitalize())
-    if collection:
-        col = Collection(name=collection)
-        try:
-            col_query = collection.query.filter_by(name=collection).first()
-        except AttributeError:
-            col_query = None
-        if col_query:
-            col = col_query
-    save_to_db([col])
-    cards = parse_mtg_decklist(f, col)
+    col = parse_collection(filename, collection)
+
+    extension = filename.split('.')[-1]
+    cards = []
+    if extension == 'csv':
+        cards = parse_csv(filename, col)
+    else:
+        cards = parse_txt(filename, col)
+
     save_to_db(cards)
     prices = fetch_prices(cards)
     save_to_db(prices)
 
 
 @crawler_bp.cli.command("update")
-def update_prices():
+def update_prices(dry_run=False):
     """Updates prices of all cards in database"""
     cards = Card.query.all()
     prices = fetch_prices(cards)
+    if dry_run:
+        current_app.logger.info("")
+        return
     save_to_db(prices)
 
 
