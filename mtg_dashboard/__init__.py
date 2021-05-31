@@ -19,11 +19,13 @@ def register_extensions(app):
 def register_blueprints(app):
     from .crawler import crawler_bp
     from .views import views_bp
+    from .api import api_bp
     from .db import db_bp
 
     app.register_blueprint(crawler_bp)
     app.register_blueprint(views_bp)
     app.register_blueprint(db_bp)
+    app.register_blueprint(api_bp)
 
 
 app = create_app()

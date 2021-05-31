@@ -1,4 +1,6 @@
 from datetime import datetime
+from dataclasses import dataclass
+from typing import List
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -13,7 +15,30 @@ collections = db.Table(
 )
 
 
+@dataclass
+class Card(db.Model):
+    id: int
+    name: str
+    setname: str
+    count: int
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80), nullable=False)
+    setname = db.Column(db.String(5), nullable=True)
+    count = db.Column(db.Integer, nullable=False, default=1)
+
+    def __repr__(self):
+        if self.setname:
+            return f"{self.count}x {self.name} ({self.setname})"
+        return f"{self.name}"
+
+
+@dataclass
 class Collection(db.Model):
+    id: int
+    name: str
+    cards = List[Card]
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
 
@@ -28,19 +53,14 @@ class Collection(db.Model):
         return f"Collection {self.name} ({len(self.cards)} cards)"
 
 
-class Card(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), nullable=False)
-    setname = db.Column(db.String(5), nullable=True)
-    count = db.Column(db.Integer, nullable=False, default=1)
-
-    def __repr__(self):
-        if self.setname:
-            return f"{self.count}x {self.name} ({self.setname})"
-        return f"{self.name}"
-
-
+@dataclass
 class Price(db.Model):
+    id: int
+    price: float
+    card_id: int
+    card: Card
+    date: datetime
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     price = db.Column(db.Float)
     card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
