@@ -25,7 +25,7 @@ def parse_decklist_line(line, collection=None):
     name = " ".join(line.split(" ")[1:])
     existing_card = Card.query.filter_by(name=name).first()
     if existing_card:
-        existing_card.count += count
+        existing_card.count += int(count)
         return existing_card
     final_card = Card(name=name, count=count, setname=setname)
     final_card.collections.append(collection)
