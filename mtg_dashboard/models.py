@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 collections = db.Table(
     "collection_card_rel",
     db.Column(
