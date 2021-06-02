@@ -79,7 +79,7 @@ def parse_collection(filename, collection):
     if collection:
         col = Collection(name=collection)
         try:
-            col_query = collection.query.filter_by(name=collection).first()
+            col_query = col.query.filter_by(name=collection).first()
         except AttributeError:
             col_query = None
         if col_query:

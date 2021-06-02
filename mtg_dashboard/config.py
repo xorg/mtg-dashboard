@@ -26,5 +26,5 @@ class Development(Config):
 
 
 class Test(Config):
-    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/mtg-dashboard.sqlite"
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.sqlite"
     TESTING = True
