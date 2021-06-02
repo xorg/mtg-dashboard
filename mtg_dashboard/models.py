@@ -24,6 +24,7 @@ class Card(db.Model):
     count: int
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    img = db.Column(db.String(255), nullable=True)
     name = db.Column(db.String(80), nullable=False)
     setname = db.Column(db.String(5), nullable=True)
     count = db.Column(db.Integer, nullable=False, default=1)
