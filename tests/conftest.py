@@ -1,5 +1,9 @@
 import os
 import pytest
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from mtg_dashboard import create_app
 from mtg_dashboard.models import db
 
