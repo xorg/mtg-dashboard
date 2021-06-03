@@ -1,7 +1,7 @@
 from mtg_dashboard.models import db
 from flask import Blueprint
 
-db_bp = Blueprint('db', __name__)
+db_bp = Blueprint('database', __name__)
 
 
 @db_bp.cli.command("drop")
