@@ -60,12 +60,16 @@ def parse_mtg_decklist(data, col=None):
 
 
 def fetch_price(card):
+    current_app.logger.info(f"Fetching price for {card.name}")
     if card.setname:
         fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
     else:
         fetched_card = scrython.cards.Named(exact=card.name)
+    if not card.img:
+        card.img = fetched_card.image_uris()["normal"]
+        save_to_db([card])
     price = Price(card=card, card_id=card.id, price=fetched_card.prices("eur"))
-    time.sleep(0.05)
+    # time.sleep(0.05)
     return price
 
 
@@ -129,22 +133,18 @@ def update_prices(dry_run=False):
         return
     save_to_db(prices)
 
-    # updating images
-    fetch_images()
-
 
 @crawler_bp.cli.command("fetch_images")
 def fetch_images(dry_run=False, resolution="normal"):
     """Get image url for every card in db"""
     cards = Card.query.all()
     for card in cards:
-        if not card.img:
-            current_app.logger.info(f"Fetching card img for {card.name}...")
-            if card.setname:
-                fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
-            else:
-                fetched_card = scrython.cards.Named(exact=card.name)
-            card.img = fetched_card.image_uris()[resolution]
+        current_app.logger.info(f"Fetching card img for {card.name}...")
+        if card.setname:
+            fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
+        else:
+            fetched_card = scrython.cards.Named(exact=card.name)
+        card.img = fetched_card.image_uris()[resolution]
     save_to_db(cards)
 
 
