@@ -61,20 +61,24 @@ def parse_mtg_decklist(data, col=None):
 
 def fetch_price(card):
     current_app.logger.info(f"Fetching price for {card.name}")
-    if card.setname:
-        fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
-    else:
-        fetched_card = scrython.cards.Named(exact=card.name)
-    if not card.img:
-        card.img = fetched_card.image_uris()["normal"]
-        save_to_db([card])
-    price = Price(card=card, card_id=card.id, price=fetched_card.prices("eur"))
+    try:
+        if card.setname:
+            fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
+        else:
+            fetched_card = scrython.cards.Named(exact=card.name)
+        if not card.img:
+            card.img = fetched_card.image_uris()["normal"]
+            save_to_db([card])
+        price = Price(card=card, card_id=card.id, price=fetched_card.prices("eur"))
+    except scrython.ScryfallError:
+        price = None
     # time.sleep(0.05)
     return price
 
 
 def fetch_prices(card_list):
-    return [fetch_price(card) for card in card_list if card.name]
+    prices = [fetch_price(card) for card in card_list if card.name]
+    return [price for price in prices if price]
 
 
 def parse_collection(filename, collection):
