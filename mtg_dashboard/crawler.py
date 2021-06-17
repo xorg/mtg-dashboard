@@ -1,5 +1,5 @@
-import csv
 import time
+import csv
 import scrython
 import click
 from flask import Blueprint, current_app
@@ -16,16 +16,16 @@ def read_file(filename):
 
 def parse_decklist_line(line, collection=None):
     line = line.strip()
-    # if the last line is a bracket, it's the setname
+    # if the last character is a closing parenthese, it's the setname
     setname = None
     if line and line[-1] == ")":
         setname = line.split(" ")[-1].strip("()")
         line = " ".join(line.split(" ")[:-1])
-    count = line.split(" ")[0]
+    count = int(line.split(" ")[0])
     name = " ".join(line.split(" ")[1:])
     existing_card = Card.query.filter_by(name=name).first()
     if existing_card:
-        existing_card.count += int(count)
+        existing_card.count = int(existing_card.count) + int(count)
         return existing_card
     final_card = Card(name=name, count=count, setname=setname)
     final_card.collections.append(collection)
@@ -124,6 +124,7 @@ def import_cards(filename, collection):
 
 
 @crawler_bp.cli.command("update")
+@click.option('--dry-run', '-d', default=False, is_flag=True)
 def update_prices(dry_run=False):
     """Updates prices of all cards in database"""
     cards = Card.query.all()
@@ -145,6 +146,7 @@ def fetch_images(dry_run=False, resolution="normal"):
         else:
             fetched_card = scrython.cards.Named(exact=card.name)
         card.img = fetched_card.image_uris()[resolution]
+        time.sleep(0.05)
     save_to_db(cards)
 
 
