@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
 
 
@@ -22,12 +21,29 @@ class Card(db.Model):
     name: str
     setname: str
     count: int
+    img: str
+    prices = List["Price"]
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     img = db.Column(db.String(255), nullable=True)
     name = db.Column(db.String(80), nullable=False)
     setname = db.Column(db.String(5), nullable=True)
     count = db.Column(db.Integer, nullable=False, default=1)
+
+    def get_current_price(self):
+        return self.prices[0]
+
+    def serialize(self):
+        """Returns a dictionary with
+        additional information not saved in database"""
+        dct = dict()
+        dct["id"] = self.id
+        dct["name"] = self.name
+        dct["setname"] = self.setname
+        dct["current_price"] = self.get_current_price()
+        dct["count"] = self.count
+        dct["img"] = self.img
+        return dct
 
     def __repr__(self):
         if self.setname:
@@ -39,7 +55,7 @@ class Card(db.Model):
 class Collection(db.Model):
     id: int
     name: str
-    cards = List[Card]
+    cards = List["Card"]
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
@@ -51,6 +67,16 @@ class Collection(db.Model):
         backref=db.backref("collections", lazy=True),
     )
 
+    def serialize(self):
+        """Returns a dictionary with
+        additional information not saved in database"""
+        dct = dict()
+        dct["cards"] = self.cards
+        dct["number of cards"] = len(self.cards)
+        dct["name"] = self.name
+        dct["id"] = self.id
+        return dct
+
     def __repr__(self):
         return f"Collection {self.name} ({len(self.cards)} cards)"
 
@@ -60,13 +86,15 @@ class Price(db.Model):
     id: int
     price: float
     card_id: int
-    card: Card
     date: datetime
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     price = db.Column(db.Float)
     card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
-    card = db.relationship("Card", backref=db.backref("prices", lazy=False))
+    card = db.relationship(
+        "Card",
+        backref=db.backref("prices", lazy=True, order_by="Price.date.asc()"),
+    )
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     def __repr__(self):

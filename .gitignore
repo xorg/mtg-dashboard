@@ -15,3 +15,5 @@ build/
 *.egg-info/
 
 .vscode/
+
+frontend/node_modules/

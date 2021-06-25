@@ -6,7 +6,7 @@ api_bp = Blueprint("api", __name__)
 
 
 # view all collections
-@api_bp.route("/collection", methods=["GET"])
+@api_bp.route("/api/collection", methods=["GET"])
 def collections():
     collections = Collection.query.all()
     return jsonify(collections)
@@ -17,6 +17,15 @@ def collections():
 def cards():
     cards = Card.query.all()
     return jsonify(cards)
+
+
+# specific card with prices
+@api_bp.route("/api/card/<int:id>", methods=["GET"])
+def card(id):
+    card = Card.query.filter_by(id=id).first()
+    card.prices = Price.query.filter_by(card_id=id).all()
+    print(card.prices)
+    return jsonify(card)
 
 
 # view prices of a card by id
@@ -30,5 +39,3 @@ def card_prices(card_id):
 def price():
     price = Price.query.order_by(Price.price.desc()).all()
     return jsonify(price)
-
-
