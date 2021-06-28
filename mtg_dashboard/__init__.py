@@ -17,7 +17,7 @@ def create_app():
 def register_extensions(app):
     from .models import db
     db.init_app(app)
-    Migrate(app, db)
+    Migrate(app, db, render_as_batch=True)
 
 
 def register_blueprints(app):

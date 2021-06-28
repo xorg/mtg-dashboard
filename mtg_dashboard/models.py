@@ -2,6 +2,7 @@ from datetime import datetime
 from dataclasses import dataclass
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
 
 db = SQLAlchemy()
 
@@ -59,6 +60,7 @@ class Collection(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
+    value = db.Column(db.Float())
 
     cards = db.relationship(
         "Card",
@@ -66,6 +68,11 @@ class Collection(db.Model):
         lazy="subquery",
         backref=db.backref("collections", lazy=True),
     )
+
+    def get_collection_value(self):
+        value = 0
+        for card in self.cards:
+            value += card.get_current_price()
 
     def serialize(self):
         """Returns a dictionary with
@@ -99,3 +106,15 @@ class Price(db.Model):
 
     def __repr__(self):
         return f"Price: {self.date}: {self.card.name} {self.price} "
+
+
+@event.listens_for(Price, "after_insert")
+def receive_after_insert(mapper, connection, price):
+    "listen for the 'after_insert' event"
+    card = price.card
+    collections = card.collections
+    for c in collections:
+        c.value = c.get_collection_value()
+        price.session.add(c)
+        price.session.commit()
+        print("Just Updated price for: ", c)
