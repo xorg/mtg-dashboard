@@ -31,7 +31,7 @@ def collection_detail(id):
 # view all cards
 @api_bp.route("/api/cards", methods=["GET"])
 def cards():
-    cards = Card.query.filter(Card.current_price > 10.0)
+    cards = Card.query.all()
     return jsonify(list(cards))
 
 

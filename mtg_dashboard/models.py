@@ -58,7 +58,9 @@ class Card(db.Model):
 
     @hybrid_property
     def current_price(self):
-        return self.prices[0].price
+        if self.prices:
+            return self.prices[0].price
+        return None
 
     @current_price.expression
     def current_price(cls):
@@ -94,7 +96,7 @@ class Collection(db.Model):
     @value.expression
     def value(cls):
         return select(func.sum([Card.current_price])).where(Card.collection_id == cls.id).as_scalar()
- 
+
     def value_history(self):
         return select(func.sum(Price.price), Price.date).where(Price.card_id == self.id).order_by(Price.date.desc()).group_by(Price.date)
 
