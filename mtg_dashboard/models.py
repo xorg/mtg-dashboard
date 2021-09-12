@@ -113,9 +113,9 @@ class Collection(db.Model):
         s = sorted(prices, key=lambda x: x.date.date())
         plist = []
         for key, group in itertools.groupby(s, lambda x: x.date.date()):
-            plist.append([key, sum([float(p.price or 0) for p in group])])
+            plist.append({"x": key.strftime("%Y-%m-%d"), "y": sum([int(p.price or 0) for p in group])})
 
-        return plist
+        return [{"data": plist}]
 
     @value_history.expression
     def value_history(cls):
