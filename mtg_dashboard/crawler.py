@@ -5,7 +5,7 @@ import click
 from flask import Blueprint, current_app
 from mtg_dashboard.models import Card, Collection, Price, db
 
-crawler_bp = Blueprint('crawler', __name__)
+crawler_bp = Blueprint("crawler", __name__)
 
 
 def read_file(filename):
@@ -34,11 +34,11 @@ def parse_decklist_line(line, collection=None):
 
 def parse_csv(filename, collection=None):
     cards = []
-    with open(filename, newline='') as csvfile:
+    with open(filename, newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            name = row['Name']
-            setname = row['Set']
+            name = row["Name"]
+            setname = row["Set"]
             existing_card = Card.query.filter_by(name=name, setname=setname).first()
             if existing_card:
                 existing_card.count += 1
@@ -83,7 +83,7 @@ def fetch_prices(card_list):
 
 def parse_collection(filename, collection):
     # try to find collection
-    col = Collection(name=filename.split('.')[0].capitalize())
+    col = Collection(name=filename.split(".")[0].capitalize())
     if collection:
         col = Collection(name=collection)
         try:
@@ -109,15 +109,15 @@ def save_to_db(objects):
 
 @crawler_bp.cli.command("import")
 @click.argument("filename")
-@click.option('--collection', default=None, help='Collection name to save cards to')
+@click.option("--collection", default=None, help="Collection name to save cards to")
 def import_cards(filename, collection):
     """Import cards to database from a text file"""
 
     col = parse_collection(filename, collection)
 
-    extension = filename.split('.')[-1]
+    extension = filename.split(".")[-1]
     cards = []
-    if extension == 'csv':
+    if extension == "csv":
         cards = parse_csv(filename, col)
     else:
         cards = parse_txt(filename, col)
@@ -128,7 +128,7 @@ def import_cards(filename, collection):
 
 
 @crawler_bp.cli.command("update")
-@click.option('--dry-run', '-d', default=False, is_flag=True)
+@click.option("--dry-run", "-d", default=False, is_flag=True)
 def update_prices(dry_run=False):
     """Updates prices of all cards in database"""
     cards = Card.query.all()

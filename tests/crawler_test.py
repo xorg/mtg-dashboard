@@ -24,8 +24,3 @@ def test_parse_collection(app):
         # there should be two collections now
         assert len(query) == 2
         assert query[1].name == col_2.name
-
-
-
-
-

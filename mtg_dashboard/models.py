@@ -43,6 +43,7 @@ class Price(db.Model):
 
 @dataclass
 class Card(db.Model):
+    prices: List
     current_price: float
     id: int
     name: str
@@ -87,7 +88,7 @@ class Collection(db.Model):
     cards = db.relationship(
         "Card",
         secondary=collections,
-        lazy='dynamic',
+        lazy="dynamic",
         backref=db.backref("collections", lazy=True),
     )
 
@@ -97,7 +98,11 @@ class Collection(db.Model):
 
     @value.expression
     def value(cls):
-        return select(func.sum([Card.current_price])).where(Card.collection_id == cls.id).as_scalar()
+        return (
+            select(func.sum([Card.current_price]))
+            .where(Card.collection_id == cls.id)
+            .as_scalar()
+        )
 
     @hybrid_property
     def most_valued_cards(self):
@@ -105,22 +110,38 @@ class Collection(db.Model):
 
     @most_valued_cards.expression
     def most_valued_cards(cls):
-        return select(Card).where(Card.collection_id == cls.id).order_by(Card.current_price.desc())
+        return (
+            select(Card)
+            .where(Card.collection_id == cls.id)
+            .order_by(Card.current_price.desc())
+        )
 
     @hybrid_property
     def value_history(self):
-        prices = list(itertools.chain.from_iterable([card.prices for card in self.cards]))
+        prices = list(
+            itertools.chain.from_iterable([card.prices for card in self.cards])
+        )
         s = sorted(prices, key=lambda x: x.date.date())
         plist = []
         for key, group in itertools.groupby(s, lambda x: x.date.date()):
-            plist.append({"x": key.strftime("%Y-%m-%d"), "y": sum([int(p.price or 0) for p in group])})
+            plist.append(
+                {
+                    "x": key.strftime("%Y-%m-%d"),
+                    "y": sum([int(p.price or 0) for p in group]),
+                }
+            )
 
         return [{"data": plist}]
 
     @value_history.expression
     def value_history(cls):
         subquery = select(Price.id).join(Card, Card.collection_id == cls.id)
-        return select(func.sum(Price.price), Price.date).where(Price.id.in_(subquery)).order_by(Price.date.desc()).group_by(Price.date)
+        return (
+            select(func.sum(Price.price), Price.date)
+            .where(Price.id.in_(subquery))
+            .order_by(Price.date.desc())
+            .group_by(Price.date)
+        )
 
     def __repr__(self):
         return f"Collection {self.name} ({len(self.cards)} cards)"

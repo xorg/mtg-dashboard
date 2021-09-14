@@ -2,12 +2,11 @@ import setuptools
 
 
 setuptools.setup(
-    name='mtg-dashboard',
-    version='0.0.1',
+    name="mtg-dashboard",
+    version="0.0.1",
     long_description=__doc__,
-    packages = ['mtg_dashboard'],
+    packages=["mtg_dashboard"],
     include_package_data=True,
     zip_safe=False,
-    install_requires = ['Flask']
+    install_requiresP=["Flask"],
 )
-

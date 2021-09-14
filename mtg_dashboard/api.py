@@ -35,8 +35,16 @@ def cards():
     return jsonify(list(cards))
 
 
+# view all cards
+# accepts ?range=1d param
+@api_bp.route("/api/cards/trending", methods=["GET"])
+def cards_trending():
+    cards = Card.query.join(Price)
+    return jsonify(list(cards))
+
+
 # specific card with prices
-@api_bp.route("/api/card/<int:id>", methods=["GET"])
+@api_bp.route("/api/cards/<int:id>", methods=["GET"])
 def card(id):
     card = Card.query.filter_by(id=id).first()
     card.prices = Price.query.filter_by(card_id=id).all()
