@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - database-data:/var/lib/postgresql/data/ 
+      - ./sql/initial_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    environment:
+      - POSTGRES_PASSWORD=dev_pw
+      - PGPASSWORD=dev_pw
+      - PGUSER=postgresql
+      - PGHOST=0.0.0.0
+      - PGPORT=5432
+      - PGDATABASE=mtg_dashboard
+    ports:
+      - 5432:5432
+
+  backend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    links:
+      - db:database
+    environment:
+      - FLASK_APP=${FLASK_APP}
+      - FLASK_ENV=${FLASK_ENV}
+      - DATABASE_URL=${DATABASE_URL}
+
+  frontend:
+    build: frontend
+    restart: always
+    ports:
+      - 3000:3000
+volumes:
+  database-data:
+
