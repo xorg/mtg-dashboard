@@ -1,0 +1,5 @@
+[run]
+omit = *tests*,./.venv/*,*migrations*
+
+[report]
+omit = *tests*,./.venv/*,*migrations*

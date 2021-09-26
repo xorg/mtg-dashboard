@@ -6,3 +6,4 @@ python-dotenv==0.17.1
 regex==2021.4.4
 scrython==1.9.0
 pytest==6.2.4
+coverage==5.5
