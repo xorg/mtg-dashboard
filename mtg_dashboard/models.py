@@ -65,7 +65,12 @@ class Card(db.Model):
 
     @current_price.expression
     def current_price(cls):
-        return select([Price.price]).where(Price.card_id == cls.id).limit(1).as_scalar()
+        return (
+            select([Price.price])
+            .where(Price.card_id == cls.id)
+            .limit(1)
+            .scalar_subquery()
+        )
 
     def __repr__(self):
         if self.setname:
@@ -144,7 +149,7 @@ class Collection(db.Model):
         )
 
     def __repr__(self):
-        return f"Collection {self.name} ({len(self.cards)} cards)"
+        return f"Collection {self.name}"
 
 
 @event.listens_for(Price, "after_insert")

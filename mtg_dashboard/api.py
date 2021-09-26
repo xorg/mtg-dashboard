@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import jsonify
-from mtg_dashboard.models import Collection, Price, Card, db
+from mtg_dashboard.models import Collection, Price, Card
 
 api_bp = Blueprint("api", __name__)
 
@@ -15,14 +15,12 @@ def collections():
 # view price history of one collection
 @api_bp.route("/api/collections/<int:id>", methods=["GET"])
 def collection_detail(id):
-    collection = Collection.query.get(id)
-    query = collection.value_history()
-    res = db.session.execute(query)
-    value_history = [tuple(i) for i in res]
+    collection = Collection.query.filter(Collection.id == id).first()
+
     col = {
         "name": collection.name,
         "value": collection.value,
-        "history": value_history,
+        "history": collection.value_history,
         "cards": list(collection.cards),
     }
     return jsonify(col)
