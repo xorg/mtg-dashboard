@@ -1,6 +1,6 @@
 import os
 from mtg_dashboard import crawler
-from mtg_dashboard.models import Collection
+from mtg_dashboard.models import Collection, Price
 
 
 def test_parse_collection_filename(app):
@@ -29,3 +29,14 @@ def test_parse_collection_filename(app):
         assert query[3].name == col_2.name
 
 
+def test_import_file(app):
+    with app.app_context():
+        path = os.path.join(os.path.dirname(__file__), "fixtures", "test_import_data.txt")
+        c = crawler.parse_collection("test_import_data.txt", "Collection 2")
+        assert type(c) == Collection
+        cards = crawler.parse_txt(path, c)
+        assert type(cards) == list
+
+        prices = crawler.fetch_prices(cards)
+        assert type(prices) == list
+        assert type(prices[0]) == Price

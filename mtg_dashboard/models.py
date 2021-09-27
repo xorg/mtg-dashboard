@@ -2,8 +2,6 @@ import itertools
 from datetime import datetime
 from dataclasses import dataclass
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import event
-from sqlalchemy.orm import object_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import select, func
 from typing import List
@@ -150,23 +148,3 @@ class Collection(db.Model):
 
     def __repr__(self):
         return f"Collection {self.name}"
-
-
-@event.listens_for(Price, "after_insert")
-def receive_after_insert(mapper, connection, price):
-    # listen for the 'after_insert' event
-    session = object_session(price)
-    card = price.card
-    collections = card.collections
-    try:
-        session.begin_nested()
-        for c in collections:
-            c.value = c.get_collection_value()
-            print(f"{c} current value is {c.value}")
-            session.add(c)
-            print("Just Updated price for: ", c)
-        session.commit()
-        session.close()
-    except Exception as e:
-        session.rollback()
-        raise e

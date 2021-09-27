@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import jsonify
-from mtg_dashboard.models import Collection, Price, Card
+from flask import request
+from mtg_dashboard.models import Collection, Card
 
 api_bp = Blueprint("api", __name__)
 
@@ -8,13 +9,25 @@ api_bp = Blueprint("api", __name__)
 # view all collections
 @api_bp.route("/api/collections", methods=["GET"])
 def collections():
+    """View list of all collections
+
+    Returns:
+        A list of all collections in database
+    """
     collections = Collection.query.all()
     return jsonify(collections)
 
 
-# view price history of one collection
 @api_bp.route("/api/collections/<int:id>", methods=["GET"])
 def collection_detail(id):
+    """View detailed collection object with aggregated price hisory
+
+    Args:
+        id: ID of collection to display
+
+    Returns:
+        A json object with all detail information of the given collection
+    """
     collection = Collection.query.filter(Collection.id == id).first()
 
     col = {
@@ -26,34 +39,38 @@ def collection_detail(id):
     return jsonify(col)
 
 
-# view all cards
 @api_bp.route("/api/cards", methods=["GET"])
 def cards():
-    cards = Card.query.all()
-    return jsonify(list(cards))
+    """List all cards
+
+    Parameters:
+    most_valued: sort by value
+    limit: only display <limit> entries
+
+    Returns:
+        A json list of all cards in database
+    """
+    cards = list(Card.query.all())
+    most_valued = request.args.get("most_valued")
+    if most_valued:
+        cards = sorted(cards, key=lambda x: x.current_price, reverse=True)
+
+    limit = request.args.get("limit")
+    print(limit)
+    cards = cards[:int(limit)] if limit else cards
+
+    return jsonify(cards)
 
 
-# view all cards
-# accepts ?range=1d param
-@api_bp.route("/api/cards/trending", methods=["GET"])
-def cards_trending():
-    cards = Card.query.join(Price)
-    return jsonify(list(cards))
-
-
-# specific card with prices
 @api_bp.route("/api/cards/<int:id>", methods=["GET"])
 def card(id):
+    """View a specific card with it's price history
+
+    Args:
+         id: ID of card to display
+
+    Returns:
+        A json object with the recent card prices
+    """
     card = Card.query.filter_by(id=id).first()
-    card.prices = Price.query.filter_by(card_id=id).all()
-    print(card.prices)
     return jsonify(card)
-
-
-# view prices of a card by id
-@api_bp.route("/api/cards/<int:card_id>/price", methods=["GET"])
-def card_prices(card_id):
-    card_price_query = (
-        Price.query.filter_by(card_id=card_id).order_by(Price.date.asc()).all()
-    )
-    return jsonify(card_price_query)
