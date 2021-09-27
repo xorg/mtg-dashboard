@@ -54,7 +54,7 @@ def cards():
     cards = list(Card.query.all())
     most_valued = request.args.get("most_valued")
     if most_valued:
-        cards = sorted(cards, key=lambda x: x.current_price, reverse=True)
+        cards = sorted(cards, key=lambda x: x.current_price if x.current_price else 0, reverse=True)
 
     limit = request.args.get("limit")
     print(limit)
@@ -82,7 +82,7 @@ def stats():
     """List various stats
 
     Returns:
-        A json list of tuples of  various stats
+        A json list of tuples of various stats
     """
     collections = Collection.query.all()
 
