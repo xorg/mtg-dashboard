@@ -7,38 +7,9 @@ SET default_transaction_read_only = off;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 
---
--- Databases
---
 
 --
--- Database "template1" dump
---
-
-\connect template1
-
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 13.2 (Debian 13.2-1)
--- Dumped by pg_dump version 13.2 (Debian 13.2-1)
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- PostgreSQL database dump complete
---
-
+-- Databases    
 --
 -- Database "mtg_dashboard" dump
 --
@@ -252,6 +223,7 @@ COPY public.alembic_version (version_num) FROM stdin;
 --
 
 COPY public.card (id, name, setname, count, img) FROM stdin;
+569	Liliana of the Dark Realms	M13	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/c/2cd2d81e-1388-4f34-9917-2289971cf8da.jpg?1562551937
 4	Mother of Runes	ulg	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/b/0b1a46ab-95cb-4c24-924f-fc2afd4fcac7.jpg?1562862312
 7	Adanto Vanguard	xln	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/1/21c950d7-b4f6-4902-8c9a-98f2933f9fa5.jpg?1562552020
 10	Fencing Ace	ddl	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/7/170240bb-73a7-4a22-aedc-4e2323299a4d.jpg?1592751748
@@ -524,6 +496,7 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 110	Carnophage	exo	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/1/d17c057f-cb1b-4895-831a-fb35c75d3845.jpg?1562088807
 114	Vampire Lacerator	a25	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/c/0c947c96-b4a5-4c3b-aacb-85ee0bf3afda.jpg?1562432558
 116	Bloodthrone Vampire	mm2	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/d/1d87d15f-e944-4ca3-a729-b7ecee4cf118.jpg?1562259666
+540	Ayara, First of Locthwain	ELD	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/d/ed0ace28-9a33-4f0d-b8c8-f5517f20ccf1.jpg?1572490057
 122	Crypt Rats	vis	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/7/3/736455f6-c1b3-4a5a-a91f-a0cd3986ed53.jpg?1562277688
 126	Undead Gladiator	a25	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/b/3bad2f48-9aa9-4f38-a22f-9b4802d0ee7f.jpg?1562434889
 128	Wakedancer	cns	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/0/b02c8c59-52b1-4f68-8ebf-4026c78ef9fa.jpg?1562866405
@@ -531,12 +504,17 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 132	Marsh Flitter	lrw	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/4/040e1039-1943-4c2d-aa98-b7f9519de321.jpg?1562336718
 133	Nekrataal	c14	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/0/106417fa-ebb7-4821-90a5-37a5e30835fb.jpg?1561932618
 135	Whisper, Blood Liturgist	dom	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/6/0647feeb-ad7a-40c7-830f-f307ba8339ad.jpg?1562730877
+570	Liliana, Waker of the Dead	M21	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/3/e329a3e2-6702-4758-8aac-c3017e77b619.jpg?1594739061
+571	Mausoleum Secrets	GRN	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/26f7cf38-78cc-4139-9f2a-4dd0be7d9da8.jpg?1572892984
 141	Tragic Slip	dka	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/9/09666671-601e-4fca-bdfb-fb288bf2672c.jpg?1562897122
 142	Vendetta	roe	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/3/039fc76d-3b7e-4329-a997-07c25509e421.jpg?1562700700
+572	Mind Stone	C21	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/c/8c899cbd-cddd-43f9-a95d-a6e5af990362.jpg?1617986435
 145	Dismember	nph	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/6/064dfdeb-485f-473e-9fa0-8fdb7638cdc6.jpg?1562875311
 146	Duress	xln	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/0/006cbb74-7447-45fb-b44b-bac31832b392.jpg?1562549670
 148	Reanimate	uma	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/4/04fc99dc-bfbe-4567-b791-6b1db96471ec.jpg?1547516995
 149	Unearth	mh1	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/6/b62abd0c-ec3e-45d7-989d-da269812aeef.jpg?1562201767
+573	Mindslicer	ODY	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/9/895b1c9b-b1a1-457b-92cd-3469a38b69a3.jpg?1562920466
+574	Mutilate	M13	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/4/c48bc86b-df0a-4a9c-8aad-c3ffb742a5ff.jpg?1588005547
 154	Drown in Sorrow	bng	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/8/287c7570-8080-43dc-a586-963e15566446.jpg?1593091908
 155	Barter in Blood	jmp	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/3/23986add-b33d-4bad-86f3-e2d0f99cf949.jpg?1600699425
 156	Blood for Bones	m20	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/7/8/7892b516-0dce-491f-8b42-031d64397e26.jpg?1592516601
@@ -556,7 +534,6 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 178	Lightning Mauler	avr	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/4/241cc968-b93e-4fe3-a66d-7776d29aa023.jpg?1592709136
 180	Mogg War Marshal	tsp	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/b/8b9e0bdb-b615-447a-b80d-d7244c25c56e.jpg?1562924530
 181	Young Pyromancer	jmp	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/1/218af707-cc60-407e-af20-e21879a0e902.jpg?1601078849
-540	Ayara, First of Locthwain	ELD	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/d/ed0ace28-9a33-4f0d-b8c8-f5517f20ccf1.jpg?1572490057
 183	Cunning Sparkmage	wwk	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/6/9/699842c1-6507-48ee-b98b-3774d1f07c76.jpg?1562288961
 187	Beetleback Chief	pc2	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/e/1e3ccf3d-583c-46b4-b51e-ae1b0628d506.jpg?1575571695
 189	Fanatic of Mogis	ths	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/5/8/581eaadb-442b-40c9-b8f9-9e19d5eba824.jpg?1562818407
@@ -692,6 +669,8 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 483	Vigor	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/a/ea7047d8-8d32-48a3-829b-7eb5427ed53a.jpg?1562942114
 487	Wood Elves	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/2/227746cb-8d9e-4f56-a19c-971a35f4cf20.jpg?1620530569
 489	Wrap in Vigor	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/2/92d53533-b10e-430a-a6f6-58ecb508be77.jpg?1562865933
+575	Night's Whisper	EMA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/4/e4638720-a55d-4c3b-b57d-2d028db5894d.jpg?1580014319
+576	Oppression	7ED	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/c/ac327f80-983e-4e28-96e8-91ff5377f5a3.jpg?1562245368
 363	Meteor Golem	m19	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/b/1bdb0b15-d651-4730-8be9-d0e01145311b.jpg?1562300760
 366	Bonesplitter	mrd	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/6/465a7990-c9f9-4716-a833-fd41458b9cee.jpg?1562142403
 368	Sensei's Divining Top	chk	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/a/4a08ca06-58db-4ce6-b490-be4bea8956a1.jpg?1562759858
@@ -736,74 +715,66 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 484	Wilderness Reclamation	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/4/94a28102-dfbe-49e9-b64f-52b552afac1b.jpg?1613386842
 486	Wirewood Channeler	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/5/6/5670ae47-befb-4aaf-a77a-d7dbd4d8dc08.jpg?1620530546
 490	Yorvo, Lord of Garenbrig	\N	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/e/ae2998a1-1713-467e-a08e-0efd8720aa5b.jpg?1572490720
-536	Abhorrent Overlord	THS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/4/4415d050-7a76-4f8b-bf78-e33dd21fe4f1.jpg?1562817335
-537	Altar of Dementia	TMP	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/f/4f2da99f-3c53-4980-97d6-2158c765aac0.jpg?1562054217
+577	Phyrexian Altar	UMA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/c/3c66c54b-b2d1-494d-ae10-a950c184a52f.jpg?1547518505
+583	Sidisi, Undead Vizier	DTK	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/6/e/6ea5dbba-6114-4d97-9363-817ab9e896d3.jpg?1562788006
+584	Sisay's Ring	VIS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/0/a08becd3-ca5e-4150-8d28-52436a3eaffd.jpg?1587913184
+585	Sol Ring	C20	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/8/286bea73-8ad8-4423-8a7c-8497420fdb54.jpg?1591321726
+586	Swiftfoot Boots	C15	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/7/b79b931d-93b6-46fa-8dff-87abe6dd7170.jpg?1562708786
+587	Syr Konrad, the Grim	ELD	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/8/a808868f-aea8-4651-9357-85a4d7b4f290.jpg?1572490254
+588	Thespian's Stage	2XM	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/269a926d-7788-4668-8bd8-7572dbf5f5eb.jpg?1599710662
+589	Underworld Connections	DDM	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/e/be2fef19-4ccb-4ca4-b4d6-46c258583290.jpg?1592754853
+590	Urborg, Tomb of Yawgmoth	M15	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/f/a/fa48b15c-7312-4f3f-b7aa-b2ad98234bf1.jpg?1562797373
+591	Victim of Night	ISD	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/e/ee4c6135-eee9-43ec-bbe8-76912352dcac.jpg?1562839346
+592	Viscera Seer	M11	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/6/1/6179f847-e334-4f7f-9a4e-0013942a394f.jpg?1562461786
+593	Whip of Erebos	THS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/e/9e5ec47c-47a2-4eda-b81a-4a07f04e5989.jpg?1562822353
+594	Witch's Cottage	ELD	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/8/b87891cd-b457-4dff-8d18-a7eaf6748fc6.jpg?1572491253
+595	Words of Waste	ONS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/2/d2dcb8ed-23e7-4cee-9f43-042232c6035a.jpg?1562945240
+596	Worn Powerstone	USG	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/2/2224d7ef-2e2f-47dd-a4a0-e36b3170b124.jpg?1562902192
+536	Abhorrent Overlord	THS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/4/4415d050-7a76-4f8b-bf78-e33dd21fe4f1.jpg?1562817335
+537	Altar of Dementia	TMP	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/f/4f2da99f-3c53-4980-97d6-2158c765aac0.jpg?1562054217
+543	Buried Alive	GRV	1	\N
+544	Buried Ruin	M12	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/9/e910cf59-f7aa-44b1-bb8a-c2211179137c.jpg?1562663937
+545	Butcher of Malakir	CM2	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/c/dce6a712-d638-4d06-b3c6-75e35e4ec46c.jpg?1562276079
+560	Ghost Quarter	CM1	1	\N
+562	Grim Haruspex (KTK) 73	\N	1	\N
 115	Blood Artist	avr	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/e/2e1fb442-68ff-4249-8e44-87edf6fae211.jpg?1592708762
-543	Buried Alive	GRV	3	\N
-544	Buried Ruin	M12	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/9/e910cf59-f7aa-44b1-bb8a-c2211179137c.jpg?1562663937
-545	Butcher of Malakir	CM2	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/c/dce6a712-d638-4d06-b3c6-75e35e4ec46c.jpg?1562276079
-560	Ghost Quarter	CM1	3	\N
-562	Grim Haruspex (KTK) 73	\N	3	\N
-538	Animate Dead	GRV	3	\N
-539	Avatar of Woe	GRV	3	\N
-541	Barren Moor	ONS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/5/45be3811-a223-4c45-9b24-0317f2d53c60.jpg?1562911376
-542	Black Sun's Zenith	MBS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/3/03bdcf52-50b8-42c0-9665-931d83f5f314.jpg?1562609329
-546	Cabal Coffers	TOR	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/b/2b934c78-258e-4b1e-9783-ec9f734e8776.jpg?1562629046
-547	Chainer, Dementia Master	TOR	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/0/40342b11-1005-4ccc-bef4-9ea4c640b048.jpg?1562629465
-548	Corpse Connoisseur	MM3	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/f/3f4ef04b-5434-480e-82a1-118ed1ff551f.jpg?1593813217
-549	Crypt Ghast	GTC	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/7/3795a4e7-646f-4bb7-b154-2610eb740e8d.jpg?1561822873
-550	Damnation	PLC	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/26c68473-70ca-40ba-b5c6-71ec30f88a2c.jpg?1562568132
-551	Dark Confidant	RAV	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/4/94f7a441-bf2d-46fb-a7b6-9bd6137f86d9.jpg?1598914714
-552	Decree of Pain	SCG	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/1/e1958a07-fc75-41cd-ac45-d92d49587754.jpg?1562536145
-553	Demonic Tutor	3ED	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/8/881e5922-b464-4a1a-b074-664bd6c0a7f6.jpg?1559596930
-554	Disciple of Bolas	2XM	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/b/8b70c101-d8b0-4acb-ad65-59bf9860708a.jpg?1598304590
-555	Dread Presence	M20	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/4/0430db1a-5cad-4444-ba93-57fb32e65606.jpg?1592516651
-556	Entomb	UMA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/6/d66f864b-b1bb-4596-93b8-3b4bfe6b1332.jpg?1547516853
-557	Everflowing Chalice	DDF	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/f/4/f4cb8ada-49b6-4cc1-ba46-4b90896f7a8b.jpg?1562270485
-579	Plaguecrafter	GRN	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/6/8682fb87-df14-4277-aaa0-0d53d766c406.jpg?1572893031
-578	Phyrexian Arena	APC	6	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/4/84e19975-e3e1-453b-b902-a1b1fc1d8504.jpg?1562926298
-580	Pristine Talisman	IMA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/f/3f59820b-462e-4023-8b00-d8b5fafe15a3.jpg?1562847967
-581	Rune-Scarred Demon	MYS1	3	\N
-582	Sangromancer	C17	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/a/3af47f00-2f43-4de9-9a88-966331be83c4.jpg?1562605320
+538	Animate Dead	GRV	1	\N
+539	Avatar of Woe	GRV	1	\N
+541	Barren Moor	ONS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/5/45be3811-a223-4c45-9b24-0317f2d53c60.jpg?1562911376
+542	Black Sun's Zenith	MBS	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/3/03bdcf52-50b8-42c0-9665-931d83f5f314.jpg?1562609329
+546	Cabal Coffers	TOR	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/b/2b934c78-258e-4b1e-9783-ec9f734e8776.jpg?1562629046
+547	Chainer, Dementia Master	TOR	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/0/40342b11-1005-4ccc-bef4-9ea4c640b048.jpg?1562629465
+548	Corpse Connoisseur	MM3	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/f/3f4ef04b-5434-480e-82a1-118ed1ff551f.jpg?1593813217
+549	Crypt Ghast	GTC	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/7/3795a4e7-646f-4bb7-b154-2610eb740e8d.jpg?1561822873
+550	Damnation	PLC	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/26c68473-70ca-40ba-b5c6-71ec30f88a2c.jpg?1562568132
+551	Dark Confidant	RAV	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/4/94f7a441-bf2d-46fb-a7b6-9bd6137f86d9.jpg?1598914714
+552	Decree of Pain	SCG	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/1/e1958a07-fc75-41cd-ac45-d92d49587754.jpg?1562536145
+553	Demonic Tutor	3ED	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/8/881e5922-b464-4a1a-b074-664bd6c0a7f6.jpg?1559596930
+554	Disciple of Bolas	2XM	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/b/8b70c101-d8b0-4acb-ad65-59bf9860708a.jpg?1598304590
+555	Dread Presence	M20	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/4/0430db1a-5cad-4444-ba93-57fb32e65606.jpg?1592516651
+556	Entomb	UMA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/6/d66f864b-b1bb-4596-93b8-3b4bfe6b1332.jpg?1547516853
+557	Everflowing Chalice	DDF	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/f/4/f4cb8ada-49b6-4cc1-ba46-4b90896f7a8b.jpg?1562270485
+578	Phyrexian Arena	APC	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/4/84e19975-e3e1-453b-b902-a1b1fc1d8504.jpg?1562926298
+579	Plaguecrafter	GRN	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/6/8682fb87-df14-4277-aaa0-0d53d766c406.jpg?1572893031
+580	Pristine Talisman	IMA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/f/3f59820b-462e-4023-8b00-d8b5fafe15a3.jpg?1562847967
+581	Rune-Scarred Demon	MYS1	1	\N
+582	Sangromancer	C17	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/a/3af47f00-2f43-4de9-9a88-966331be83c4.jpg?1562605320
 138	Shriekmaw	c20	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/0/1055f518-c15d-4aee-9b91-a4068ec22466.jpg?1591320471
 151	Exhume	brb	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/1/41c79afa-8f88-48bd-9122-984327d3e54d.jpg?1562910464
-558	Expedition Map	ZEN	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/5/c55bee97-593f-441f-b96c-a998d5212a55.jpg?1562616395
-559	Geth's Grimoire	DST	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/a/0a21d76d-d86c-4348-be45-f65167d2b5a9.jpg?1562635283
 144	Go for the Throat	mbs	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/c/1c665cfc-7e9a-444b-96b5-e8e4ef57a98a.jpg?1562609972
-561	Gonti, Lord of Luxury	KLD	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/7/7/7735ecda-9bb0-4ef9-86b2-16e5b6592e61.jpg?1576381671
 136	Gray Merchant of Asphodel	c14	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/4/3/430fcd3e-a70a-4554-9c48-1a1b11d0a95c.jpg?1561940218
-563	High Market (CM1) 257	\N	3	\N
-564	Imp's Mischief	PLC	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/2/22ec70a6-40b7-41da-a6c0-c140cadf5509.jpg?1562567679
-565	Increasing Ambition	DKA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/8/c8f508dc-7c7d-47e8-a4ef-0e8fd99cbd74.jpg?1562942476
-566	It That Betrays	DDP	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/5/b/5b64cfc0-dace-4f54-b2b1-c92d8cb64c35.jpg?1593095672
-567	Jet Medallion	TMP	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/0/c0db458c-2ced-454c-8061-fff8bd363b33.jpg?1562056398
-568	Kokusho, the Evening Star	IMA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/b/ab56cedb-1bcd-48a5-8503-a8e324e236ad.jpg?1562852933
-569	Liliana of the Dark Realms	M13	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/c/2cd2d81e-1388-4f34-9917-2289971cf8da.jpg?1562551937
-570	Liliana, Waker of the Dead	M21	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/3/e329a3e2-6702-4758-8aac-c3017e77b619.jpg?1594739061
-571	Mausoleum Secrets	GRN	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/26f7cf38-78cc-4139-9f2a-4dd0be7d9da8.jpg?1572892984
-572	Mind Stone	C21	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/c/8c899cbd-cddd-43f9-a95d-a6e5af990362.jpg?1617986435
-573	Mindslicer	ODY	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/8/9/895b1c9b-b1a1-457b-92cd-3469a38b69a3.jpg?1562920466
-574	Mutilate	M13	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/4/c48bc86b-df0a-4a9c-8aad-c3ffb742a5ff.jpg?1588005547
-575	Night's Whisper	EMA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/4/e4638720-a55d-4c3b-b57d-2d028db5894d.jpg?1580014319
-576	Oppression	7ED	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/c/ac327f80-983e-4e28-96e8-91ff5377f5a3.jpg?1562245368
-577	Phyrexian Altar	UMA	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/c/3c66c54b-b2d1-494d-ae10-a950c184a52f.jpg?1547518505
-583	Sidisi, Undead Vizier	DTK	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/6/e/6ea5dbba-6114-4d97-9363-817ab9e896d3.jpg?1562788006
 152	Sign in Blood	mm2	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/1/2/12f94c5a-684e-4a48-8280-f0e3db712d75.jpg?1562259425
-584	Sisay's Ring	VIS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/0/a08becd3-ca5e-4150-8d28-52436a3eaffd.jpg?1587913184
-585	Sol Ring	C20	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/8/286bea73-8ad8-4423-8a7c-8497420fdb54.jpg?1591321726
-586	Swiftfoot Boots	C15	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/7/b79b931d-93b6-46fa-8dff-87abe6dd7170.jpg?1562708786
-587	Syr Konrad, the Grim	ELD	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/8/a808868f-aea8-4651-9357-85a4d7b4f290.jpg?1572490254
-588	Thespian's Stage	2XM	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/6/269a926d-7788-4668-8bd8-7572dbf5f5eb.jpg?1599710662
-589	Underworld Connections	DDM	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/e/be2fef19-4ccb-4ca4-b4d6-46c258583290.jpg?1592754853
-590	Urborg, Tomb of Yawgmoth	M15	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/f/a/fa48b15c-7312-4f3f-b7aa-b2ad98234bf1.jpg?1562797373
 161	Vampiric Rites	bfz	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/3/4/3416309a-5824-48f5-876e-00e0f180acf9.jpg?1562907221
-591	Victim of Night	ISD	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/e/e/ee4c6135-eee9-43ec-bbe8-76912352dcac.jpg?1562839346
-592	Viscera Seer	M11	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/6/1/6179f847-e334-4f7f-9a4e-0013942a394f.jpg?1562461786
-593	Whip of Erebos	THS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/9/e/9e5ec47c-47a2-4eda-b81a-4a07f04e5989.jpg?1562822353
-594	Witch's Cottage	ELD	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/b/8/b87891cd-b457-4dff-8d18-a7eaf6748fc6.jpg?1572491253
-595	Words of Waste	ONS	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/d/2/d2dcb8ed-23e7-4cee-9f43-042232c6035a.jpg?1562945240
-596	Worn Powerstone	USG	3	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/2/2224d7ef-2e2f-47dd-a4a0-e36b3170b124.jpg?1562902192
 120	Zulaport Cutthroat	c20	4	https://c1.scryfall.com/file/scryfall-cards/normal/front/5/6/5676c6b6-a1f7-4f4e-a8a6-3398fb5130fd.jpg?1614441668
+558	Expedition Map	ZEN	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/5/c55bee97-593f-441f-b96c-a998d5212a55.jpg?1562616395
+559	Geth's Grimoire	DST	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/0/a/0a21d76d-d86c-4348-be45-f65167d2b5a9.jpg?1562635283
+561	Gonti, Lord of Luxury	KLD	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/7/7/7735ecda-9bb0-4ef9-86b2-16e5b6592e61.jpg?1576381671
+563	High Market (CM1) 257	\N	1	\N
+564	Imp's Mischief	PLC	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/2/2/22ec70a6-40b7-41da-a6c0-c140cadf5509.jpg?1562567679
+565	Increasing Ambition	DKA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/8/c8f508dc-7c7d-47e8-a4ef-0e8fd99cbd74.jpg?1562942476
+566	It That Betrays	DDP	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/5/b/5b64cfc0-dace-4f54-b2b1-c92d8cb64c35.jpg?1593095672
+567	Jet Medallion	TMP	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/c/0/c0db458c-2ced-454c-8061-fff8bd363b33.jpg?1562056398
+568	Kokusho, the Evening Star	IMA	1	https://c1.scryfall.com/file/scryfall-cards/normal/front/a/b/ab56cedb-1bcd-48a5-8503-a8e324e236ad.jpg?1562852933
 \.
 
 
@@ -813,12 +784,8 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 
 COPY public.collection (id, name) FROM stdin;
 1	Gonzo's Cube
-2	Kamahl Commander Deck
 3	Kamahl Commander Deck
-4	
-5	
-6	
-7	Chainer_edh
+5	Chainer Commander Deck
 \.
 
 
@@ -42582,7 +42549,7 @@ SELECT pg_catalog.setval('public.collection_id_seq', 7, true);
 -- Name: price_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.price_id_seq', 55925, true);
+SELECT pg_catalog.setval('public.price_id_seq', 61920, true);
 
 
 --
