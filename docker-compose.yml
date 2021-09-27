@@ -18,6 +18,8 @@ services:
   backend:
     build: .
     restart: unless-stopped
+    volumes:
+      - ./:/app
     ports:
       - 5000:5000
     links:
@@ -28,6 +30,8 @@ services:
       - DATABASE_URL=${DATABASE_URL}
 
   frontend:
+    volumes:
+      - ./frontend:/frontend
     build: frontend
     restart: always
     ports:
