@@ -12,9 +12,9 @@
   </div>
 
   <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8">
-    <div v-for="stat in stats" :key="stat.title">
+    <div v-for="(stat, index) in stats" :key="stat.title">
       <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-        <div :class="'p-4 bg-' + colors[Math.floor(Math.random() * colors.length)] + '-400'">
+        <div :class="'p-4 bg-' + colors[index] + '-400'">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-12 w-12 text-white"
@@ -51,18 +51,10 @@
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 import { ref } from 'vue'
-// import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-// import topAuthors from '@/data/home/topAuthors.json'
-// import recentSales from '@/data/home/recentSales.json'
 
 export default {
   components: {
     apexchart: VueApexCharts,
-    // TabGroup,
-    // TabList,
-    // Tab,
-    // TabPanels,
-    // TabPanel,
   },
 
   setup() {
