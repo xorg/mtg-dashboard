@@ -18,6 +18,8 @@ services:
   backend:
     build: .
     restart: unless-stopped
+    depends_on:
+      - db
     volumes:
       - ./:/app
     ports:
