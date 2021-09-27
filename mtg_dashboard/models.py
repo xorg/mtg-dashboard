@@ -78,7 +78,7 @@ class Card(db.Model):
 
 @dataclass
 class Collection(db.Model):
-    most_valued_cards: List["Card"]
+    # most_valued_cards: List["Card"]
     value_history: List
     value: float
     # cards: List["Card"]
@@ -102,21 +102,8 @@ class Collection(db.Model):
     @value.expression
     def value(cls):
         return (
-            select(func.sum([Card.current_price]))
-            .where(Card.collection_id == cls.id)
-            .as_scalar()
-        )
-
-    @hybrid_property
-    def most_valued_cards(self):
-        return self.cards.order_by(Card.current_price.desc())[:5]
-
-    @most_valued_cards.expression
-    def most_valued_cards(cls):
-        return (
-            select(Card)
-            .where(Card.collection_id == cls.id)
-            .order_by(Card.current_price.desc())
+            select(func.sum(Card.current_price))
+            .join(cls.cards)
         )
 
     @hybrid_property
