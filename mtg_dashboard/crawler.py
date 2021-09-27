@@ -15,6 +15,8 @@ def read_file(filename):
 
 
 def parse_decklist_line(line, collection=None):
+    """Parse single decklist line
+    """
     line = line.strip()
     # if the last character is a closing parenthese, it's the setname
     setname = None
@@ -33,6 +35,15 @@ def parse_decklist_line(line, collection=None):
 
 
 def parse_csv(filename, collection=None):
+    """Parse csv file
+
+    Args:
+        filename (str): Path to csv file
+        collection (Collection, optional): Collection to add cards to. Defaults to None.
+
+    Returns:
+        List[Card]: List of card objects, ready to be saved to database
+    """
     cards = []
     with open(filename, newline="") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -51,6 +62,15 @@ def parse_csv(filename, collection=None):
 
 
 def parse_txt(filename, collection=None):
+    """Parse txt file
+
+    Args:
+        filename (str): Path to txt file
+        collection (Collection, optional): Collection to add cards to. Defaults to None.
+
+    Returns:
+        List[Card]: List of card objects, ready to be saved to database
+    """
     f = read_file(filename)
     return parse_mtg_decklist(f, collection)
 
@@ -60,6 +80,8 @@ def parse_mtg_decklist(data, col=None):
 
 
 def fetch_price(card):
+    """Connect to Scryfall API and download card data"""
+
     current_app.logger.info(f"Fetching price for {card.name}")
     try:
         if card.setname:
@@ -77,11 +99,23 @@ def fetch_price(card):
 
 
 def fetch_prices(card_list):
+    """Iterate over list of cards and fetch prices.
+    Filter out all null values.
+    """
     prices = [fetch_price(card) for card in card_list if card.name]
     return [price for price in prices if price]
 
 
 def parse_collection(filename, collection):
+    """Parse collection filename or instance
+
+    To ensure that it's possible to add new cards
+    to the same collection, we try to find out if
+    the provided filename corresponds to a database entry.
+    If yes, use that collection to add cards to.
+    If not, create a new collection.
+
+    """
     # try to find collection
     col = Collection(name=filename.split(".")[0].capitalize())
     if collection:
@@ -98,7 +132,8 @@ def parse_collection(filename, collection):
 
 
 def save_to_db(objects):
-    # create db if not exists
+    """Save multiple objects to db. We first create database
+    tables to ensure the saving doesn't fail."""
     db.create_all()
     for i in objects:
         current_app.logger.info(f"Saving {i} to database")
@@ -111,7 +146,7 @@ def save_to_db(objects):
 @click.argument("filename")
 @click.option("--collection", default=None, help="Collection name to save cards to")
 def import_cards(filename, collection):
-    """Import cards to database from a text file"""
+    """Import cards to database from either a .txt or .csv file"""
 
     col = parse_collection(filename, collection)
 
@@ -130,7 +165,7 @@ def import_cards(filename, collection):
 @crawler_bp.cli.command("update")
 @click.option("--dry-run", "-d", default=False, is_flag=True)
 def update_prices(dry_run=False):
-    """Updates prices of all cards in database"""
+    """Fetch live prices of all cards save them to database"""
     cards = Card.query.all()
     prices = fetch_prices(cards)
     if dry_run:
@@ -141,7 +176,7 @@ def update_prices(dry_run=False):
 
 @crawler_bp.cli.command("fetch_images")
 def fetch_images(dry_run=False, resolution="normal"):
-    """Get image url for every card in db"""
+    """Get image url for every card and save it to db"""
     cards = Card.query.all()
     for card in cards:
         current_app.logger.info(f"Fetching card img for {card.name}...")
