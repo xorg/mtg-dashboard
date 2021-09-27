@@ -783,9 +783,9 @@ COPY public.card (id, name, setname, count, img) FROM stdin;
 --
 
 COPY public.collection (id, name) FROM stdin;
-1	Gonzo's Cube
-3	Kamahl Commander Deck
-5	Chainer Commander Deck
+1	Collection 1
+3	Collection 2
+5	Collection 3
 \.
 
 
