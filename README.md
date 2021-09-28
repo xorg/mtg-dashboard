@@ -63,11 +63,11 @@ The UI consists of different parts:
 
 ### Stats
 ![stats](https://github.com/xorg/mtg-dashboard/blob/media/stats.png)
-A dashboard needs nice stats!
+A dashboard needs nice stats...
 
 ### Graphs
 ![graphs](https://github.com/xorg/mtg-dashboard/blob/media/graphs.png)
-And nice Charts! For every collection in the database there is a chart tracking the price of the total value of a collection.
+...and nice Charts! For every collection in the database there is a chart tracking the price of the total value of a collection.
 
 ### Top cards
 ![cards](https://github.com/xorg/mtg-dashboard/blob/media/top_cards.png)
@@ -102,13 +102,13 @@ The price of a card at a specific point in time. All prices of a card in chronol
 
 # Considerations
 Starting the project out, I felt very clever using hybrid attributes for things such as the current price of a card or the value of a collection over time.
-During the project realized that those hybrid attribute queries have to be executed _a lot_, and they take forever once there are a few data points. This is the reason the frontend's loading time is about 4-10 seconds
+During the project realized that those hybrid attribute queries have to be executed _a lot_, and they take forever once there are a few data points. This is the reason the frontend's loading time is about 4-10 seconds.
 
 With more time I would've optimised the queries to run faster or just use static fields and keep them up to date them with triggers every time a new price is added.
 
 What didnt make the finish line as well was single card charts. It wouldve been cool to make the top card panel a accordion with a chart expanding under every card when clicked. But maybe this is something for version 2.0 ;)
 
-Importing cards through the frontend would've been nice, as the crawler is a bit clunky.
+The time wasn't enough to add card import through the frontend. At the moment this has to be done with the crawler. This works, but it's a bit clunky and not as easy as just using the dashboard directly. 
 
 A loading animation for the frontend would've been nice as well. As it stands now, the first page load doesn't really look good until the chart and stats data arrive. 
 
