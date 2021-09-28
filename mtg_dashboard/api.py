@@ -88,7 +88,7 @@ def stats():
 
     # we calculate the value with python instead of a query because
     # the query doesn't really work correctly
-    real_value = int((sum([c.value for c in collections]) / len(collections)))
+    avg_value = int((sum([c.value for c in collections]) / len(collections)))
 
     # here it's important that we exclude null values (with the where clause)
     # because for some reason there are cards with no current price
@@ -102,8 +102,8 @@ def stats():
     stats = [
         {"title": "Number of cards", "number": len(Card.query.all())},
         {"title": "Number of collections", "number": len(Collection.query.all())},
-        {"title": "Average collection value", "number": real_value},
-        {"title": "Max card value", "number": max_card_value},
+        {"title": "Average collection value", "number": f"{avg_value}$"},
+        {"title": "Max card value", "number": f"{max_card_value}$"},
     ]
 
     return jsonify(stats)

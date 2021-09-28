@@ -25,7 +25,7 @@ def test_cards_most_valued(app, client):
         data = json.loads(response.data)
         assert response.status_code == 200
         assert data[0]["current_price"] == 4.99
-        assert data[1]["name"] == 'Fencing Ace'
+        assert data[1]["name"] == "Fencing Ace"
 
 
 def test_cards_limit(app, client):
@@ -48,7 +48,7 @@ def test_card_detail(app, client):
 
         assert data["name"] == card.name
         assert data["current_price"] == card.current_price
-        assert type(data['prices']) == list
+        assert type(data["prices"]) == list
 
 
 def test_collections(app, client):
@@ -75,4 +75,28 @@ def test_collection_detail(app, client):
 
         assert data["name"] == col1.name
         assert data["value"] == col1.value
-        assert type(data['history']) == list
+        assert type(data["history"]) == list
+
+
+def test_stats_endpoint(app, client):
+    """Test collection detail endpoint"""
+    with app.app_context():
+        response = client.get("/api/stats", content_type="text/json")
+        data = json.loads(response.data)
+        assert response.status_code == 200
+
+        # test 'Number of cards' stat
+        assert data[0]["number"] == len(Card.query.all())
+
+        # test 'Number of collections' stat
+        assert data[1]["number"] == len(Collection.query.all())
+
+        # test 'Average collection value' stat
+        avg_value = int(sum([c.value for c in Collection.query.all()]) / len(Collection.query.all()))
+        assert data[2]["number"] == f"{avg_value}$"
+
+        # test 'Max card value' stat
+        max_value = Card.query.where(Card.current_price > 0).order_by(Card.current_price.desc()).first().current_price
+        assert (
+            data[3]["number"] == f"{max_value}$"
+        )
