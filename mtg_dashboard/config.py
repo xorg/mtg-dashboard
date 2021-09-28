@@ -26,5 +26,6 @@ class Development(Config):
 
 
 class Test(Config):
+    # use sqlite db for testing for easier test db setup
     SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.sqlite"
     TESTING = True

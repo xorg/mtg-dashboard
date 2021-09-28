@@ -88,12 +88,18 @@ def fetch_price(card):
             fetched_card = scrython.cards.Named(exact=card.name, set=card.setname)
         else:
             fetched_card = scrython.cards.Named(exact=card.name)
+
+        # save card image to database if there is none yet
         if not card.img:
             card.img = fetched_card.image_uris()["normal"]
             save_to_db([card])
         price = Price(card=card, card_id=card.id, price=fetched_card.prices("eur"))
     except scrython.ScryfallError:
         price = None
+
+    # Scryfall recommends a 5ms delay between each request.
+    # This delay is given anyway because our code is slow enough
+    # so we don't actually need to set it here.
     # time.sleep(0.05)
     return price
 
