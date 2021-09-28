@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default {
@@ -44,22 +43,8 @@ export default {
   setup() {
     const route = useRoute()
 
-    const isUserManagementActive = computed(() => {
-      const names = ['user-list', 'user-detail', 'roles', 'permissions']
-
-      return names.includes(route.name)
-    })
-
-    const isUserActive = computed(() => {
-      const names = ['user-list', 'user-detail']
-
-      return names.includes(route.name)
-    })
-
     return {
       route,
-      isUserManagementActive,
-      isUserActive,
     }
   },
 }

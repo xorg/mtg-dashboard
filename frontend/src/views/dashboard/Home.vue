@@ -46,6 +46,35 @@
       </div>
     </div>
   </div>
+  <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-5 sm:px-8">
+    <div class="bg-white border rounded-lg shadow sm:col-span-3">
+      <div class="flex justify-between items-center px-4 py-2 mb-2 border-b-2 text-gray-600">
+        <h3 class="tracking-wider">Top cards</h3>
+      </div>
+      <div class="px-4">
+        <table class="table-fixed min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Card
+              </th>
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Value
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
+            <tr v-for="card in cards" :key="card.name">
+              <td class="py-4 whitespace-nowrap">
+                <a :href="card.img">{{ card.name }}</a>
+              </td>
+              <td class="py-4 whitespace-nowrap text-sm text-gray-500">{{ card.current_price }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -76,6 +105,14 @@ export default {
     }
     getStats()
 
+    const cards = ref([])
+
+    async function getMostValuedCards() {
+      const response = await fetch(`${host}/api/cards?order_by=value&limit=5`)
+      cards.value = await response.json()
+    }
+    getMostValuedCards()
+
     const chartOptions = {
       chart: {
         id: 'pageview-chart',
@@ -95,6 +132,7 @@ export default {
       stats,
       collections,
       colors,
+      cards,
     }
   },
 }
