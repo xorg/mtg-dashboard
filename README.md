@@ -47,7 +47,7 @@ The Database holds all card and collection related data
 
 
 ## Frontend
-This is the face of the dashboard and displays all the nice data.
+This is the face of the dashboard and displays all the nice data. The frontend is adapted from the [Tailmin Admin Dashboard](https://github.com/otezz/tailmin). It shows a chart for every collection displaying the value over time.
 
 # Data model
 

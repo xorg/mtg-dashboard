@@ -125,6 +125,9 @@ class Collection(db.Model):
         )
         s = sorted(prices, key=lambda x: x.date.date())
         plist = []
+
+        # output data as an array of x and y for easy displaying
+        # with ApexChart, the frontend charting library
         for key, group in itertools.groupby(s, lambda x: x.date.date()):
             plist.append(
                 {
