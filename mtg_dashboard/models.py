@@ -21,6 +21,8 @@ collections = db.Table(
 
 @dataclass
 class Price(db.Model):
+    """Price of a card at a given point in time"""
+
     id: int
     price: float
     card_id: int
@@ -41,6 +43,7 @@ class Price(db.Model):
 
 @dataclass
 class Card(db.Model):
+    "Representation of a single card"
     prices: List
     current_price: float
     id: int
@@ -57,6 +60,10 @@ class Card(db.Model):
 
     @hybrid_property
     def current_price(self):
+        """Show most recent price of this card
+        Prices are sorted by default by date, we
+        don't have to do any sorting here.
+        """
         if self.prices:
             return self.prices[0].price
         return None
@@ -78,10 +85,9 @@ class Card(db.Model):
 
 @dataclass
 class Collection(db.Model):
-    # most_valued_cards: List["Card"]
+    "Collection of cards"
     value_history: List
     value: float
-    # cards: List["Card"]
     id: int
     name: str
 
@@ -97,17 +103,23 @@ class Collection(db.Model):
 
     @hybrid_property
     def value(self):
+        """This method calculates the current value of this collection
+        The hybrid_property allows usage of Card.current_value just like
+        a regular database column.
+        """
         return sum([c.current_price for c in self.cards if c.current_price])
 
     @value.expression
     def value(cls):
-        return (
-            select(func.sum(Card.current_price))
-            .join(cls.cards)
-        )
+        "Query expression to calculate collection value"
+        return select(func.sum(Card.current_price)).join(cls.cards)
 
     @hybrid_property
     def value_history(self):
+        """This method calculates the total value of the collection
+        for each point in time recorded by all the price objects
+        in all card objects that are contained in the collection
+        """
         prices = list(
             itertools.chain.from_iterable([card.prices for card in self.cards])
         )
@@ -125,6 +137,7 @@ class Collection(db.Model):
 
     @value_history.expression
     def value_history(cls):
+        """Query expression to calculate value history"""
         subquery = select(Price.id).join(Card, Card.collection_id == cls.id)
         return (
             select(func.sum(Price.price), Price.date)
