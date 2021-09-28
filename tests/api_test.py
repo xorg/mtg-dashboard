@@ -14,13 +14,12 @@ def test_cards(app, client):
         card = Card.query.filter(Card.name == "Adanto Vanguard")[0]
         assert data[1]["name"] == card.name
         assert data[1]["current_price"] == card.current_price
-        assert len(data[1]["prices"]) == len(card.prices)
 
 
 def test_cards_most_valued(app, client):
     """Test most_valued parameter"""
     with app.app_context():
-        response = client.get("/api/cards?most_valued=1", content_type="text/json")
+        response = client.get("/api/cards?order_by=value", content_type="text/json")
 
         data = json.loads(response.data)
         assert response.status_code == 200
@@ -29,7 +28,7 @@ def test_cards_most_valued(app, client):
 
 
 def test_cards_limit(app, client):
-    """Test most_valued parameter"""
+    """Test limit parameter"""
     with app.app_context():
         response = client.get("/api/cards?limit=1", content_type="text/json")
 
@@ -48,7 +47,6 @@ def test_card_detail(app, client):
 
         assert data["name"] == card.name
         assert data["current_price"] == card.current_price
-        assert type(data["prices"]) == list
 
 
 def test_collections(app, client):

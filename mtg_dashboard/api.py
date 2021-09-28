@@ -1,3 +1,4 @@
+from statistics import mean
 from flask import Blueprint
 from flask import jsonify
 from flask import request
@@ -45,16 +46,21 @@ def cards():
     """List all cards
 
     Parameters:
-    most_valued: sort by value
+    order_by: sort by different metrics. Accepted values:
+        value: sort by current price
+        trending: sort by value gained during the last 10 days
     limit: only display <limit> entries
 
     Returns:
         A json list of all cards in database
     """
     cards = list(Card.query.all())
-    most_valued = request.args.get("most_valued")
-    if most_valued:
+    order_by = request.args.get("order_by")
+    if order_by == "value":
         cards = sorted(cards, key=lambda x: x.current_price if x.current_price else 0, reverse=True)
+    if order_by == "trending":
+        cards = [[c, calculate_trend(c)] for c in cards]
+        cards = sorted(cards, key=lambda x: x[1], reverse=True)
 
     limit = request.args.get("limit")
     print(limit)
@@ -107,3 +113,30 @@ def stats():
     ]
 
     return jsonify(stats)
+
+
+def calculate_trend(card):
+    """Calculate trend over the last 10 periods
+
+    Args:
+        card (Card): Card object
+
+    Return:
+        trend (float) Avg Trend for the last 10 periods
+    """
+    trends = []
+    current_price = card.current_price
+    try:
+        prices = card.prices[1:100]
+    except IndexError:
+        prices = card.prices
+
+    for price in prices:
+        try:
+            trend = (current_price - price.price) / price.price
+            trends.append(trend)
+        except TypeError:
+            trends.append(0)
+    if not trends:
+        return 0
+    return mean(trends)

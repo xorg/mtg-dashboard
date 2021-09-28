@@ -44,7 +44,6 @@ class Price(db.Model):
 @dataclass
 class Card(db.Model):
     "Representation of a single card"
-    prices: List
     current_price: float
     id: int
     name: str
