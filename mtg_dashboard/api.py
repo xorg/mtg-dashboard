@@ -1,14 +1,23 @@
+import os
 from statistics import mean
 from flask import Blueprint
 from flask import jsonify
 from flask import request
+from flask import send_from_directory
 from mtg_dashboard.models import Collection, Card
 
 
 api_bp = Blueprint("api", __name__)
 
 
-# view all collections
+@api_bp.route("/favicon.ico")
+def favicon():
+    """Add favicon to api"""
+    return send_from_directory(
+        os.path.join(api_bp.root_path, "static"), "favicon.ico", mimetype="image/x-icon"
+    )
+
+
 @api_bp.route("/api/collections", methods=["GET"])
 def collections():
     """View list of all collections
@@ -57,7 +66,9 @@ def cards():
     cards = list(Card.query.all())
     order_by = request.args.get("order_by")
     if order_by == "value":
-        cards = sorted(cards, key=lambda x: x.current_price if x.current_price else 0, reverse=True)
+        cards = sorted(
+            cards, key=lambda x: x.current_price if x.current_price else 0, reverse=True
+        )
     if order_by == "trending":
         cards = [[c, calculate_trend(c)] for c in cards]
         cards = sorted(cards, key=lambda x: x[1], reverse=True)
