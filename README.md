@@ -9,7 +9,7 @@ Simple Magic the Gathering Dashboard to monitor card values of your collection. 
 # Installation
 ```
 ./load-dotenv.sh
-docker-compose --env=.env up
+docker-compose up
 ```
    
 This starts the front- and backend and sets up the database. The frontend is accessible at `127.0.0.1:3000`
