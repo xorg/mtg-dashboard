@@ -16,7 +16,7 @@ A crawler allows keeping the local database up to date and
 docker-compose up
 ```
 
-This starts the front- and backend and sets up the database. The frontend is accessible at `127.0.0.1:3000`
+This starts the front- and backend and sets up the database. The frontend is accessible at `http://localhost:3000`. The backend can be found at `http:/localhost:5000`
 
 # Testing and Coverage
 ```

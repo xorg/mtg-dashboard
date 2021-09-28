@@ -6,9 +6,13 @@ from flask_migrate import Migrate
 
 def create_app():
     app = Flask(__name__)
+
+    # Configure CORS to make frontend work
     CORS(app)
     env = os.environ.get("FLASK_ENV")
     app.config.from_object(f'mtg_dashboard.config.{env.capitalize()}')
+    
+    # 
     register_extensions(app)
     register_blueprints(app)
     return app
@@ -21,6 +25,8 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
+    """ Use blueprints
+    Blueprints allow our application to be modular"""
     from .crawler import crawler_bp
     from .api import api_bp
 
