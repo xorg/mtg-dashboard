@@ -12,6 +12,7 @@ A crawler allows keeping the local database up to date and
 
 # Installation
 ```
+cp .env-example .env
 ./load-dotenv.sh
 docker-compose up
 ```
